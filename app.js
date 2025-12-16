@@ -23,6 +23,33 @@ const notificationCenter = document.getElementById('notificationCenter');
 const notificationsList = document.getElementById('notificationsList');
 const notificationCount = document.getElementById('notificationCount');
 
+// ==============================================
+// MOBILE DETECTION & RESPONSIVENESS
+// ==============================================
+function detectMobile() {
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Adjust for mobile
+        document.body.classList.add('mobile-view');
+        
+        // Reduce animation intensity on mobile
+        document.querySelectorAll('.card-3d').forEach(card => {
+            card.style.animationDuration = '4s';
+        });
+        
+        // Simplify notifications for mobile
+        console.log('📱 Mobile view enabled');
+    } else {
+        document.body.classList.remove('mobile-view');
+        // Restore normal animations
+        document.querySelectorAll('.card-3d').forEach(card => {
+            card.style.animationDuration = '3s';
+        });
+    }
+}
+// ==============================================
+
 // Typing Animation
 const typingWords = ['Learning', 'Future', 'Skills', 'Knowledge'];
 let wordIndex = 0;
@@ -58,6 +85,12 @@ function typeText() {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 EduHub Pro Initialized - Backend: ' + API_URL);
+    
+    // Detect mobile and adjust
+    detectMobile();
+    
+    // Set up resize listener
+    window.addEventListener('resize', detectMobile);
     
     // Start typing animation
     typeText();
@@ -674,7 +707,7 @@ function showAnalytics() {
     addNotification('Opening analytics dashboard...', 'info');
 }
 
-
+// Make functions globally available
 window.connectPlatform = connectPlatform;
 window.scanCourses = scanCourses;
 window.viewCourseDetails = viewCourseDetails;
